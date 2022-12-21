@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { GuideService } from 'src/app/services/guide.service';
+import { HomeServiceService } from 'src/app/services/home-service.service';
 
 @Component({
   selector: 'app-search',
@@ -6,52 +8,58 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search.page.scss'],
 })
 export class SearchPage implements OnInit {
-  constructor() {}
+  allTrip: any = [];
+  allGuideCollection = [];
+  results = [];
+  resultsGuide = [];
+  constructor(private guide: GuideService, private home: HomeServiceService) {
+    this.getAllGuide();
+    this.home.getAllPublicTrip().subscribe(
+      (res) => {
+        this.allTrip = res;
+        this.results = [...this.allTrip];
+      },
+      (err) => console.log(err)
+    );
+  }
 
-  data = [
-    {
-      id: 1,
-      nbPlace: 5,
-      fev: 'checked',
-      price: '35 DT ',
-      img: 'image1.jpg',
-      nbreStarts: 4,
-      locations: 'saw',
-      name: 'Prithivi',
-      note: 3,
-    },
-    {
-      id: 3,
-      nbPlace: 5,
-      fev: 'not_checked',
-      price: '35 DT ',
-      img: 'image2.jpg',
-      nbreStarts: 5,
-      locations: 'saw2',
-      name: 'malliga',
-      note: 4.8,
-    },
-    {
-      id: 4,
-      nbPlace: 5,
-      fev: 'checked',
-      price: '35 DT ',
-      img: 'image3.jpg',
-      nbreStarts: 2,
-      locations: 'saw2',
-      name: 'Gowdaman',
-      note: 4.8,
-    },
-  ];
-
-  public results = [...this.data];
-
+  getAllGuide() {
+    let AllGuide: any = [];
+    let guideName: any = [];
+    this.guide.getNameGuide().subscribe((res) => (guideName = res));
+    this.guide.getAllGuide().subscribe(async (res) => {
+      AllGuide = res;
+      await AllGuide.forEach(async (element) => {
+        await guideName.forEach((elm) => {
+          if (elm._id == element.idUser) {
+            this.allGuideCollection.push({
+              _id: element._id,
+              username: elm.username,
+              profilePicture: element.profilePicture,
+              workArea: element.workArea,
+              dayPrice: element.dayPrice,
+              fev: 'not_checked',
+              ratingNumber: element.ratingNumber,
+              galerie: element.galerie,
+              reservationType: element.reservationType,
+              hourPrice: element.hourPrice,
+              ListOfbestplace: element.ListOfbestplace,
+              listCategory: element.listCategory,
+            });
+          }
+        });
+      });
+      this.resultsGuide = [...this.allGuideCollection];
+    });
+  }
   search(event) {
     const query = event.target.value.toLowerCase();
-    this.results = this.data.filter(
-      (d) => d.name.toLowerCase().indexOf(query) > -1
+    this.results = this.allTrip.filter(
+      (d) => d.localization.toLowerCase().indexOf(query) > -1
     );
-    console.log(this.results);
+    this.resultsGuide = this.allGuideCollection.filter(
+      (dg) => dg.workArea[0].nom.toLowerCase().indexOf(query) > -1
+    );
   }
   ngOnInit() {}
 }
