@@ -6,52 +6,62 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 const TOKEN_KEY_Guide = 'token-key-guide';
 const helper = new JwtHelperService();
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GuideService {
-   GuideToken:any;
-  public GuideId:any;
+  GuideToken: any;
+  public GuideId: any;
 
-  constructor(private http: HttpClient,private ipservice:IpService,private storage:Storage) 
-  {  this.storage.get(TOKEN_KEY_Guide).then(async res=>
-    {
-      this.GuideToken=await res;
-      let decoded =await helper.decodeToken(this.GuideToken);
-      this.GuideId=await decoded.guideId;    
-
+  constructor(
+    private http: HttpClient,
+    private ipservice: IpService,
+    private storage: Storage
+  ) {
+    this.storage.get(TOKEN_KEY_Guide).then(async (res) => {
+      this.GuideToken = await res;
+      let decoded = await helper.decodeToken(this.GuideToken);
+      this.GuideId = await decoded.guideId;
     });
   }
-  getAllGuide()
-  {
-    return this.http.get(`http://${this.ipservice.ip}:3001/guides/getAllGuide`);
+  getAllGuide() {
+    return this.http.get(`${this.ipservice.ip}/guides/getAllGuide`);
   }
-  getNameGuide()
-  { 
-   return  this.http.get(`http://${this.ipservice.ip}:3001/users/getAllNameUser`);
-   
+  getNameGuide() {
+    return this.http.get(`${this.ipservice.ip}/users/getAllNameUser`);
   }
-  getPropTrip()
-  { 
-   return  this.http.get(`http://${this.ipservice.ip}:3001/proposedCircuits/getAllProposedCircuit`);
-   }
-   updateStatusTrip(trip:any) {   
+  getPropTrip() {
+    return this.http.get(
+      `${this.ipservice.ip}/proposedCircuits/getAllProposedCircuit`
+    );
+  }
+  updateStatusTrip(trip: any) {
     return this.http.patch(
-      `http://${this.ipservice.ip}:3001/proposedCircuits/updateTripStatus`,
+      `${this.ipservice.ip}/proposedCircuits/updateTripStatus`,
       trip
     );
   }
-  updateStatusTripPrincipale(trip:any) {   
+  updateStatusTripPrincipale(trip: any) {
     return this.http.patch(
-      `http://${this.ipservice.ip}:3001/proposedCircuits/updateTripStatuspricipale`,
+      `${this.ipservice.ip}/proposedCircuits/updateTripStatuspricipale`,
       trip
     );
   }
-  
+
   PostPublicTrip(trip: any) {
-    return this.http.post(`http://${this.ipservice.ip}:3001/publicCircuits/setPubliccCircuit`, trip);
+    return this.http.post(
+      `${this.ipservice.ip}/publicCircuits/setPubliccCircuit`,
+      trip
+    );
   }
   PostPrivateTrip(trip: any) {
-    return this.http.post(`http://${this.ipservice.ip}:3001/privateCircuits/setPrivatecCircuit`, trip);
+    return this.http.post(
+      `${this.ipservice.ip}/privateCircuits/setPrivatecCircuit`,
+      trip
+    );
   }
-  getAllPrivateTrip(){return this.http.get(`http://${this.ipservice.ip}:3001/privateCircuits/getAllPrivatecCircuit`);}
+  getAllPrivateTrip() {
+    return this.http.get(
+      `${this.ipservice.ip}/privateCircuits/getAllPrivatecCircuit`
+    );
+  }
 }

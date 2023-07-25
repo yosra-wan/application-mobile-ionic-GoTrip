@@ -18,7 +18,7 @@ export class VerificationService {
   public user: Observable<any>;
   private userData=new BehaviorSubject(null);
   verificationphone(EnterNumber:any){
-  return  this.http.get(`http://${this.ipservice.ip}:3001/verifications/verificationphone`, 
+  return  this.http.get(`${this.ipservice.ip}/verifications/verificationphone`, 
   {
     headers: { phone:EnterNumber},
   }) ;
@@ -28,7 +28,7 @@ export class VerificationService {
   sendSMS(num:any){
     console.log("num fil service",num);
     
-    return this.http.get(`http://${this.ipservice.ip}:3001/verifications/sendsms`, 
+    return this.http.get(`${this.ipservice.ip}/verifications/sendsms`, 
     {
       headers: { phone:num},
     });
@@ -36,7 +36,7 @@ export class VerificationService {
 
 
   returnToken(num:any){
-    return this.http.get(`http://${this.ipservice.ip}:3001/verifications/${num}`).pipe(
+    return this.http.get(`${this.ipservice.ip}/verifications/${num}`).pipe(
       take(1),
       map(res=>{
         console.log("token auth service",res['token']);

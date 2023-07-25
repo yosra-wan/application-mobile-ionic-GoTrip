@@ -9,7 +9,7 @@ export class ChangePasswordService {
   constructor(private http: HttpClient, private ipservice: IpService) {}
   modify(num: any, password: any) {
     return this.http.patch(
-      `http://${this.ipservice.ip}:3001/verifications/${num}`,
+      `{this.ipservice.ip}/verifications/${num}`,
       { password: `${password}` }
     );
   }

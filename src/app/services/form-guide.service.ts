@@ -11,57 +11,54 @@ const MODE_KEY = 'mode-key';
   providedIn: 'root',
 })
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FormGuideService {
-
   constructor(
     private http: HttpClient,
-    private ipservice:IpService,
-    private storage: Storage,
-    ) {     this.storage.create();    }
-    conxGet(userId:any) {
-      // console.log("hello guide");
-      
-      return this.http
-        .get(`http://${this.ipservice.ip}:3001/guides/signin`, {
-          headers: {
-            userId:userId,
-          },
-        })
-        .pipe(
-          take(1),
-          map((res) => {
-            return res['token'];
-          }),
-          switchMap((token) => {
-            // console.log("token guide set",token);
-            
-            let storageObs = from(this.storage.set(TOKEN_KEY, token));
-            return storageObs;
-          })
-        );
-    }
-    inscriPost(guide: any) {
-      return this.http
-        .post(`http://${this.ipservice.ip}:3001/guides/signup`, guide)
-        .pipe(
-          take(1),
-          map((res) => {
-            return res['token'];
-          }),
-          switchMap((token) => {
-            let storageObs = from(this.storage.set(TOKEN_KEY, token));
-            from(this.storage.set(MODE_KEY, true));
-            return storageObs;
-          })
-        );
-    }
-    modifyStatusUser() {
-      return this.http.patch(
-        `http://${this.ipservice.ip}:3001/users/updateGuidePass`,
-        { guide: `${true}` }
-      );
-    }
+    private ipservice: IpService,
+    private storage: Storage
+  ) {
+    this.storage.create();
+  }
+  conxGet(userId: any) {
+    // console.log("hello guide");
 
+    return this.http
+      .get(`${this.ipservice.ip}/guides/signin`, {
+        headers: {
+          userId: userId,
+        },
+      })
+      .pipe(
+        take(1),
+        map((res) => {
+          return res['token'];
+        }),
+        switchMap((token) => {
+          // console.log("token guide set",token);
+
+          let storageObs = from(this.storage.set(TOKEN_KEY, token));
+          return storageObs;
+        })
+      );
+  }
+  inscriPost(guide: any) {
+    return this.http.post(`${this.ipservice.ip}/guides/signup`, guide).pipe(
+      take(1),
+      map((res) => {
+        return res['token'];
+      }),
+      switchMap((token) => {
+        let storageObs = from(this.storage.set(TOKEN_KEY, token));
+        from(this.storage.set(MODE_KEY, true));
+        return storageObs;
+      })
+    );
+  }
+  modifyStatusUser() {
+    return this.http.patch(`${this.ipservice.ip}/users/updateGuidePass`, {
+      guide: `${true}`,
+    });
+  }
 }
