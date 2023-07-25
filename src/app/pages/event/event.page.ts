@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
-
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertModalComponent } from './../../alert-modal/alert-modal.component';
 @Component({
@@ -27,6 +26,7 @@ export class EventPage implements OnInit {
   isSubmitted = false;
  minDate:String ="";
   startDate:String ="";
+  trip:any;
 
   constructor(
 
@@ -45,7 +45,7 @@ export class EventPage implements OnInit {
         name: 'Prithivi',
         note: 4.8,
         catgrs :[ 'Food' ,'Shoping' , 'Shooting'],
-        imgs :['image1.jpg' ,'image2.jpg','image3.jpg']
+        imgs :['profile1_img1.jpg' ,'profile1_img2.jpg' ,'profile1_img3.jpg' ,'profile5_img1.jpg' ,]
       }
     ];
   review = [
@@ -76,6 +76,11 @@ export class EventPage implements OnInit {
     ];
     res: FormGroup;
    ngOnInit(): void {
+    this.trip=history.state.trip;
+    console.log(this.trip);
+ 
+
+
     this.res = this.formBuilder.group({
       identity: [
         '',

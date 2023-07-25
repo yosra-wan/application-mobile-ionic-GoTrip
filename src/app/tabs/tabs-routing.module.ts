@@ -17,11 +17,34 @@ const routes: Routes = [
         loadChildren: () =>
           import('../tab2/tab2.module').then((m) => m.Tab2PageModule),
       },
+
       {
         path: 'profile',
         loadChildren: () =>
           import('../pages/profile/profile.module').then(
             (m) => m.ProfilePageModule
+          ),
+      },
+
+      {
+        path: 'historique',
+        loadChildren: () =>
+          import('../pages/historique/historique.module').then(
+            (m) => m.HistoriquePageModule
+          ),
+      },
+      {
+        path: 'wishlist',
+        loadChildren: () =>
+          import('../pages/wishlist/wishlist.module').then(
+            (m) => m.WishlistPageModule
+          ),
+      },
+      {
+        path: 'notification',
+        loadChildren: () =>
+          import('../pages/notification/notification.module').then(
+            (m) => m.NotificationPageModule
           ),
       },
       {
@@ -36,13 +59,7 @@ const routes: Routes = [
             (m) => m.FormGuidePageModule
           ),
       },
-      {
-        path: 'createevent',
-        loadChildren: () =>
-          import('../pages/createevent/createevent.module').then(
-            (m) => m.CreateeventPageModule
-          ),
-      },
+      
 
       {
         path: '',
