@@ -48,7 +48,7 @@ export class AuthService {
 
   conxGet(credentials: { passwordCnx: string; usernameCnx: string }) {
     return this.http
-      .get(`http://${this.ipservice.ip}:3001/users/signin`, {
+      .get(`${this.ipservice.ip}/users/signin`, {
         headers: {
           password: credentials.passwordCnx,
           username: credentials.usernameCnx,

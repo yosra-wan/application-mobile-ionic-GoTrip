@@ -12,6 +12,6 @@ export class IntrestsService {
 
   updateRecomemnd(recommended:any)
   {    return this.http
-    .patch(`http://${this.ipservice.ip}:3001/users/${this.tokenService.userData.value.userId}`,JSON.stringify({recommended:recommended}));
+    .patch(`${this.ipservice.ip}/users/${this.tokenService.userData.value.userId}`,JSON.stringify({recommended:recommended}));
   }
 }

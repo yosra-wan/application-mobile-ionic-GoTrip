@@ -10,6 +10,6 @@ export class CategorieService {
   constructor(private http: HttpClient,private ipservice:IpService) { }
   getAllGategorie()
   {
-    return this.http.get(`http://${this.ipservice.ip}:3001/categories/getAllcategorie`);
+    return this.http.get(`${this.ipservice.ip}/categories/getAllcategorie`);
   }
 }
