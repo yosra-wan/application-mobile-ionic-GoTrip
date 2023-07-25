@@ -66,17 +66,15 @@ export class AuthService {
       );
   }
   inscriPost(user: any) {
-    return this.http
-      .post(`http://${this.ipservice.ip}:3001/users/signup`, user)
-      .pipe(
-        take(1),
-        map((res) => {
-          return res['token'];
-        }),
-        switchMap((token) => {
-          let storageObs = from(this.storage.set(TOKEN_KEY, token));
-          return storageObs;
-        })
-      );
+    return this.http.post(`${this.ipservice.ip}/users/signup`, user).pipe(
+      take(1),
+      map((res) => {
+        return res['token'];
+      }),
+      switchMap((token) => {
+        let storageObs = from(this.storage.set(TOKEN_KEY, token));
+        return storageObs;
+      })
+    );
   }
 }
